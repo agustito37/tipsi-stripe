@@ -358,7 +358,6 @@ RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSDictionary *)options
     NSUInteger requiredBillingAddressFields = [self billingType:options[@"requiredBillingAddressFields"]];
     NSString *companyName = options[@"companyName"] ? options[@"companyName"] : @"";
     STPUserInformation *prefilledInformation = [self userInformation:options[@"prefilledInformation"]];
-    NSString *managedAccountCurrency = options[@"managedAccountCurrency"];
     NSString *nextPublishableKey = options[@"publishableKey"] ? options[@"publishableKey"] : publishableKey;
     UIModalPresentationStyle formPresentation = [self formPresentation:options[@"presentation"]];
     STPTheme *theme = [self formTheme:options[@"theme"]];
@@ -367,12 +366,10 @@ RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSDictionary *)options
     [configuration setRequiredBillingAddressFields:requiredBillingAddressFields];
     [configuration setCompanyName:companyName];
     [configuration setPublishableKey:nextPublishableKey];
-    [configuration setCreateCardSources:options[@"createCardSource"] ? options[@"createCardSource"] : false];
-
+    
     STPAddCardViewController *addCardViewController = [[STPAddCardViewController alloc] initWithConfiguration:configuration theme:theme];
     [addCardViewController setDelegate:self];
     [addCardViewController setPrefilledInformation:prefilledInformation];
-    [addCardViewController setManagedAccountCurrency:managedAccountCurrency];
     // STPAddCardViewController must be shown inside a UINavigationController.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addCardViewController];
     [navigationController setModalPresentationStyle:formPresentation];
